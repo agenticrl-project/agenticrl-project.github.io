@@ -1,47 +1,20 @@
 const root = document.documentElement;
-const themeToggle = document.getElementById('themeToggle');
-themeToggle?.addEventListener('click', () => {
-  const isDark = root.getAttribute('data-theme') === 'dark';
-  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  themeToggle.textContent = isDark ? '☾' : '☀';
+const themeToggle = document.getElementById("themeToggle");
+
+themeToggle?.addEventListener("click", () => {
+  const isDark = root.getAttribute("data-theme") === "dark";
+  root.setAttribute("data-theme", isDark ? "light" : "dark");
+  themeToggle.textContent = isDark ? "☾" : "☀";
 });
 
-document.querySelectorAll('.timeline-step').forEach((step) => {
-  step.addEventListener('click', () => {
-    document.querySelectorAll('.timeline-step').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.info-panel').forEach(p => p.classList.remove('active'));
-    step.classList.add('active');
-    document.getElementById(step.dataset.panel)?.classList.add('active');
+document.querySelectorAll(".timeline-step").forEach((step) => {
+  step.addEventListener("click", () => {
+    document.querySelectorAll(".timeline-step").forEach((s) => s.classList.remove("active"));
+    document.querySelectorAll(".info-panel").forEach((p) => p.classList.remove("active"));
+    step.classList.add("active");
+    document.getElementById(step.dataset.panel)?.classList.add("active");
   });
 });
-
-// const scenarioData = {
-//   trajectory: {
-//     title: 'Trajectory Following', ssr: '93%', rsr: '90%', s2r: '97%',
-//     text: 'Follow a target trajectory while minimizing deviation and maintaining stable UAV motion.',
-//     bullets: ['Primary objective: path progress and low deviation.', 'Failure condition: large path deviation or collision.', 'Best for showing reward shaping over trajectories.']
-//   },
-//   gate: {
-//     title: 'Gate Traversal', ssr: '100%', rsr: '100%', s2r: '100%',
-//     text: 'Traverse a gate while maintaining centered, collision-free motion.',
-//     bullets: ['Primary objective: pass through the gate center.', 'Reward emphasizes progress and alignment.', 'Useful for showing scene-conditioned reward design.']
-//   },
-//   obstacle: {
-//     title: 'Obstacle Avoidance & Landing', ssr: '96%', rsr: '82%', s2r: '85%',
-//     text: 'Avoid cylindrical obstacles and land on the target pad.',
-//     bullets: ['Primary objective: safe navigation and landing.', 'Failure condition: obstacle collision or failed landing.', 'Tests whether the reward balances safety and goal completion.']
-//   },
-//   barrier: {
-//     title: 'Wall Barrier Crossing & Landing', ssr: '95%', rsr: '85%', s2r: '89%',
-//     text: 'Cross a wall-like barrier and perform controlled landing on the target pad.',
-//     bullets: ['Primary objective: barrier crossing and landing.', 'Requires altitude-aware reward shaping.', 'Tests complex 3D navigation behavior.']
-//   },
-//   circular: {
-//     title: 'Circular Motion Generation', ssr: '98%', rsr: '98%', s2r: '100%',
-//     text: 'Generate smooth circular motion with stable UAV control.',
-//     bullets: ['Primary objective: stable orbit-like motion.', 'Failure condition: unstable or incomplete motion.', 'Highlights behavior generation rather than point-to-point navigation.']
-//   }
-// };
 
 const scenarioData = {
   trajectory: {
@@ -55,16 +28,20 @@ const scenarioData = {
     ssr: "93%",
     rsr: "90%",
     s2r: "97%",
+
     plot: "assets/traj_follow.png",
     plotAlt: "Trajectory following real-world plot",
     plotCaption: "Real-world trajectory-following rollout colored by velocity magnitude.",
+
     gif: "videos/traj_reward.gif",
     gifAlt: "Trajectory following reward evolution",
     gifCaption: "Reward evolves from local attraction toward trajectory-aligned progress.",
+
     taskMediaType: "image",
-    taskMediaSrc: "assets/task_input_trajectory.jpg",
+    taskMediaSrc: "assets/task_input_trajectory.png",
     taskMediaAlt: "Trajectory following task input image",
     taskMediaCaption: "Scene image used as visual context for reward generation.",
+
     userPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to smoothly follow a trajectory
 defined by five ordered future waypoints.
@@ -76,11 +53,11 @@ Assume the simulator provides:
             - obs[3:6] is the drone orientation [roll, pitch, yaw]
             - obs[6:9] is the drone linear velocity [vx, vy, vz]
             - obs[9:12] is the drone angular velocity [wx, wy, wz]
-            - obs[12:15] is the first relative trajectory point [p1_x - drone_x, p1_y - drone_y, p1_z - drone_z]
-            - obs[15:18] is the second relative trajectory point [p2_x - drone_x, p2_y - drone_y, p2_z - drone_z]
-            - obs[18:21] is the third relative trajectory point [p3_x - drone_x, p3_y - drone_y, p3_z - drone_z]
-            - obs[21:24] is the fourth relative trajectory point [p4_x - drone_x, p4_y - drone_y, p4_z - drone_z]
-            - obs[24:27] is the fifth relative trajectory point [p5_x - drone_x, p5_y - drone_y, p5_z - drone_z]
+            - obs[12:15] is the first relative trajectory point
+            - obs[15:18] is the second relative trajectory point
+            - obs[18:21] is the third relative trajectory point
+            - obs[21:24] is the fourth relative trajectory point
+            - obs[24:27] is the fifth relative trajectory point
 
 - collision_flag : bool
 
@@ -107,6 +84,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     refinedPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to smoothly follow a trajectory
 defined by five ordered future waypoints.
@@ -118,11 +96,11 @@ Assume the simulator provides:
             - obs[3:6] is the drone orientation [roll, pitch, yaw]
             - obs[6:9] is the drone linear velocity [vx, vy, vz]
             - obs[9:12] is the drone angular velocity [wx, wy, wz]
-            - obs[12:15] is the first relative trajectory point [p1_x - drone_x, p1_y - drone_y, p1_z - drone_z]
-            - obs[15:18] is the second relative trajectory point [p2_x - drone_x, p2_y - drone_y, p2_z - drone_z]
-            - obs[18:21] is the third relative trajectory point [p3_x - drone_x, p3_y - drone_y, p3_z - drone_z]
-            - obs[21:24] is the fourth relative trajectory point [p4_x - drone_x, p4_y - drone_y, p4_z - drone_z]
-            - obs[24:27] is the fifth relative trajectory point [p5_x - drone_x, p5_y - drone_y, p5_z - drone_z]
+            - obs[12:15] is the first relative trajectory point
+            - obs[15:18] is the second relative trajectory point
+            - obs[18:21] is the third relative trajectory point
+            - obs[21:24] is the fourth relative trajectory point
+            - obs[24:27] is the fifth relative trajectory point
 
 - collision_flag : bool
 
@@ -149,6 +127,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     rewardCode: `import numpy as np
 
 def compute_reward(obs, collision_flag):
@@ -197,16 +176,20 @@ def compute_reward(obs, collision_flag):
     ssr: "100%",
     rsr: "100%",
     s2r: "100%",
+
     plot: "assets/pass_gate.png",
     plotAlt: "Gate traversal real-world plot",
     plotCaption: "Real-world gate-traversal rollout colored by velocity magnitude.",
+
     gif: "videos/gate_traversal.gif",
     gifAlt: "Gate traversal reward evolution",
     gifCaption: "Reward becomes sharply concentrated near the gate center.",
+
     taskMediaType: "image",
     taskMediaSrc: "assets/task_input_gate.jpg",
     taskMediaAlt: "Gate traversal task input image",
     taskMediaCaption: "Scene image showing the gate used for reward generation.",
+
     userPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to fly towards the gate's center shown in the scene.
 
@@ -227,6 +210,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     refinedPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to fly towards the gate's center shown in the scene.
 
@@ -247,6 +231,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     rewardCode: `def compute_reward(obs, collision_flag):
     import numpy as np
 
@@ -283,16 +268,20 @@ def compute_reward(obs, collision_flag):
     ssr: "96%",
     rsr: "82%",
     s2r: "85%",
+
     plot: "assets/obstacle_avoid.png",
     plotAlt: "Obstacle avoidance and landing real-world plot",
     plotCaption: "Real-world obstacle-avoidance and landing rollout colored by velocity magnitude.",
+
     gif: "videos/avoid_obs_and_land.gif",
     gifAlt: "Obstacle avoidance and landing reward evolution",
     gifCaption: "Reward balances progress to the landing pad with obstacle-clearance penalties.",
+
     taskMediaType: "image",
     taskMediaSrc: "assets/task_input_obstacle.jpg",
     taskMediaAlt: "Obstacle avoidance and landing task input image",
     taskMediaCaption: "Scene image with obstacles and landing pad used for reward generation.",
+
     userPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to avoid three cylindrical obstacles and land on the target point.
 
@@ -327,6 +316,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     refinedPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to avoid three cylindrical obstacles and land on the target point.
 
@@ -361,6 +351,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     rewardCode: `import numpy as np
 
 def compute_reward(obs, collision_flag):
@@ -412,16 +403,20 @@ def compute_reward(obs, collision_flag):
     ssr: "95%",
     rsr: "85%",
     s2r: "89%",
+
     plot: "assets/barrier_land.png",
     plotAlt: "Barrier crossing and landing real-world plot",
     plotCaption: "Real-world barrier-crossing and landing rollout colored by velocity magnitude.",
+
     gif: "videos/barrier_cross_and_land.gif",
     gifAlt: "Barrier crossing and landing reward evolution",
     gifCaption: "Reward encourages barrier crossing first, then landing-pad approach.",
+
     taskMediaType: "image",
     taskMediaSrc: "assets/task_input_barrier.jpg",
     taskMediaAlt: "Barrier crossing and landing task input image",
     taskMediaCaption: "Scene image with the wall barrier and landing pad used for reward generation.",
+
     userPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to cross over the wall barrier shown in the scene and then land on the yellow landing pad.
 
@@ -455,6 +450,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     refinedPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to cross over the wall barrier shown in the scene and then land on the yellow landing pad.
 
@@ -488,6 +484,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     rewardCode: `def compute_reward(obs, collision_flag):
     reward = 0.0
 
@@ -556,16 +553,20 @@ def compute_reward(obs, collision_flag):
     ssr: "98%",
     rsr: "98%",
     s2r: "100%",
+
     plot: "assets/motion_gen.png",
     plotAlt: "Circular motion generation real-world plot",
     plotCaption: "Real-world circular-motion rollout colored by velocity magnitude.",
+
     gif: "videos/circular_motion_gen.gif",
     gifAlt: "Circular motion reward evolution",
     gifCaption: "Reward forms an orbit-aware field centered on the desired circular motion.",
+
     taskMediaType: "video",
     taskMediaSrc: "videos/motion_gen.mp4",
     taskMediaAlt: "Circular motion task input video",
     taskMediaCaption: "Motion clip provided as visual context for learning circular behavior.",
+
     userPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to learn a circular motion behavior as seen in the video.
 
@@ -597,6 +598,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     refinedPrompt: `"""
 Generate a Python reward function for an RL agent whose goal is to learn a circular motion behavior as seen in the video.
 
@@ -628,6 +630,7 @@ def compute_reward(obs, collision_flag):
     ...
     return reward
 """`,
+
     rewardCode: `import numpy as np
 
 def compute_reward(obs, collision_flag):
@@ -667,7 +670,7 @@ function updateScenario(scenarioKey) {
 
   const bullets = document.getElementById("scenarioBullets");
   bullets.innerHTML = "";
-  s.bullets.forEach(item => {
+  s.bullets.forEach((item) => {
     const li = document.createElement("li");
     li.textContent = item;
     bullets.appendChild(li);
@@ -685,16 +688,21 @@ function updateScenario(scenarioKey) {
 
   const taskImage = document.getElementById("taskMediaImage");
   const taskVideo = document.getElementById("taskMediaVideo");
+  const taskVideoSource =
+    document.getElementById("taskMediaVideoSource") || taskVideo?.querySelector("source");
 
   if (s.taskMediaType === "video") {
     taskImage.style.display = "none";
     taskVideo.style.display = "block";
-    taskVideo.src = s.taskMediaSrc;
+    if (taskVideoSource) taskVideoSource.src = s.taskMediaSrc;
     taskVideo.load();
+    taskVideo.play().catch(() => {});
   } else {
     taskVideo.pause();
     taskVideo.style.display = "none";
-    taskVideo.removeAttribute("src");
+    if (taskVideoSource) taskVideoSource.removeAttribute("src");
+    taskVideo.load();
+
     taskImage.style.display = "block";
     taskImage.src = s.taskMediaSrc;
     taskImage.alt = s.taskMediaAlt;
@@ -705,12 +713,12 @@ function updateScenario(scenarioKey) {
   document.getElementById("scenarioRefinedPrompt").textContent = s.refinedPrompt;
   document.getElementById("scenarioRewardCode").textContent = s.rewardCode;
 
-  document.querySelectorAll(".scenario-tabs .tab").forEach(btn => {
+  document.querySelectorAll(".scenario-tabs .tab").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.scenario === scenarioKey);
   });
 }
 
-document.querySelectorAll(".scenario-tabs .tab").forEach(button => {
+document.querySelectorAll(".scenario-tabs .tab").forEach((button) => {
   button.addEventListener("click", () => {
     updateScenario(button.dataset.scenario);
   });
@@ -718,26 +726,13 @@ document.querySelectorAll(".scenario-tabs .tab").forEach(button => {
 
 updateScenario("trajectory");
 
-document.querySelectorAll('.tab').forEach((tab) => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    const data = scenarioData[tab.dataset.scenario];
-    document.getElementById('scenarioTitle').textContent = data.title;
-    document.getElementById('scenarioText').textContent = data.text;
-    document.getElementById('ssrBox').textContent = data.ssr;
-    document.getElementById('rsrBox').textContent = data.rsr;
-    document.getElementById('s2rBox').textContent = data.s2r;
-    document.getElementById('scenarioBullets').innerHTML = data.bullets.map(item => `<li>${item}</li>`).join('');
-  });
-});
-
-document.querySelectorAll('.table-search').forEach(input => {
-  input.addEventListener('input', () => {
+document.querySelectorAll(".table-search").forEach((input) => {
+  input.addEventListener("input", () => {
     const table = document.getElementById(input.dataset.table);
     const query = input.value.toLowerCase();
-    table.querySelectorAll('tbody tr').forEach(row => {
-      row.style.display = row.textContent.toLowerCase().includes(query) ? '' : 'none';
+
+    table.querySelectorAll("tbody tr").forEach((row) => {
+      row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
     });
   });
 });
