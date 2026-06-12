@@ -146,26 +146,12 @@
   }
 }
 
-/* Shift scenario metric boxes slightly left */
-.scenario-panel {
-  grid-template-columns: 1fr 430px;
-}
-
-.metric-mini-grid {
-  transform: translateX(-45px);
-}
-
-@media (max-width: 980px) {
-  .metric-mini-grid {
-    transform: none;
-  }
-}
-
 /* Extra spacing between Results subsections */
 .subsection-heading {
   margin-top: 70px;
 }
 
+/* Literature links */
 .comparison-table sup a {
   color: var(--accent);
   text-decoration: none;
@@ -176,17 +162,74 @@
   text-decoration: underline;
 }
 
-/* ---------- Scenario agentic input/output cards ---------- */
-.scenario-agentic-grid {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 0.95fr 1.15fr 1.35fr;
-  gap: 22px;
-  margin-top: 10px;
-  align-items: start;
+/* Scenario tabs: compact deployment/reward layout */
+.scenario-panel {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1.25fr !important;
+  gap: 22px !important;
+  align-items: start !important;
+  padding: 28px !important;
 }
 
-.scenario-agentic-card {
+/* Top text summary */
+.scenario-panel > div:first-child {
+  grid-column: 1 / 3 !important;
+  grid-row: 1 !important;
+}
+
+/* SSR / RSR / S2R cards */
+.metric-mini-grid {
+  grid-column: 3 / 4 !important;
+  grid-row: 1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 12px !important;
+  transform: none !important;
+}
+
+/* Let task cards behave as direct scenario grid items */
+.scenario-agentic-grid {
+  display: contents !important;
+}
+
+/* Task image/video card */
+.scenario-agentic-card:nth-child(1) {
+  grid-column: 1 / 2 !important;
+  grid-row: 2 !important;
+}
+
+/* User prompt card */
+.scenario-agentic-card:nth-child(2) {
+  grid-column: 2 / 3 !important;
+  grid-row: 2 !important;
+}
+
+/* Refined output card */
+.refined-agentic-card {
+  grid-column: 3 / 4 !important;
+  grid-row: 2 / 4 !important;
+}
+
+/* Let visual cards behave as direct scenario grid items */
+.scenario-visual-grid {
+  display: contents !important;
+}
+
+/* Real-world trajectory card */
+.scenario-visual-card:nth-child(1) {
+  grid-column: 1 / 2 !important;
+  grid-row: 3 !important;
+}
+
+/* Reward evolution card */
+.scenario-visual-card:nth-child(2) {
+  grid-column: 2 / 3 !important;
+  grid-row: 3 !important;
+}
+
+/* Shared card styling */
+.scenario-agentic-card,
+.scenario-visual-card {
   background: #ffffff;
   border: 1px solid #d8e2f0;
   border-radius: 24px;
@@ -205,9 +248,10 @@
   margin-bottom: 14px;
 }
 
-.agentic-label-row h4 {
-  margin: 0;
-  font-size: 1.2rem;
+.agentic-label-row h4,
+.scenario-visual-card h4 {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
   color: #10203c;
 }
 
@@ -238,27 +282,29 @@
 }
 
 .task-media-frame img,
-.task-media-frame video {
+.task-media-frame video,
+.scenario-visual-card img {
   width: 100%;
   display: block;
-  max-height: 280px;
-  object-fit: cover;
+  max-height: 255px !important;
+  object-fit: contain !important;
+  border-radius: 14px;
 }
 
 .prompt-box,
 .code-box {
   margin: 0;
   border-radius: 18px;
-  padding: 16px 18px;
+  padding: 14px 16px;
   overflow: auto;
   line-height: 1.45;
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   white-space: pre-wrap;
   word-break: break-word;
-  max-height: 350px;
 }
 
 .prompt-box {
+  max-height: 230px !important;
   background: #f8fafc;
   color: #10203c;
   border: 1px solid #d8e2f0;
@@ -266,6 +312,7 @@
 }
 
 .code-box {
+  max-height: 360px !important;
   background: #0b1220;
   color: #dbeafe;
   border: 1px solid #1e293b;
@@ -273,8 +320,9 @@
 }
 
 .refined-stack {
-  display: grid;
-  gap: 18px;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 14px !important;
 }
 
 .mini-subheading {
@@ -283,65 +331,33 @@
   color: #10203c;
 }
 
-@media (max-width: 1200px) {
-  .scenario-agentic-grid {
-    grid-template-columns: 1fr;
-  }
+.scenario-media-caption {
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.92rem;
+  margin: 12px 4px 0;
 }
 
-/* Compact scenario deployment/reward layout */
-.scenario-panel {
-  row-gap: 20px;
-  align-items: start;
-}
-
-.scenario-agentic-grid {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: 18px;
-  align-items: start;
-  margin-top: 0;
-}
-
-.refined-agentic-card {
-  grid-column: 1 / -1;
-}
-
-.refined-stack {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 18px;
-}
-
-.prompt-box {
-  max-height: 280px;
-}
-
-.code-box {
-  max-height: 360px;
-}
-
-.scenario-visual-grid {
-  grid-column: 1 / -1;
-  margin-top: 0 !important;
-  gap: 18px;
-  align-items: start;
-}
-
-.scenario-visual-card img {
-  max-height: 280px;
-  object-fit: contain;
-}
-
+/* Mobile layout */
 @media (max-width: 980px) {
-  .scenario-agentic-grid,
-  .refined-stack,
-  .scenario-visual-grid {
-    grid-template-columns: 1fr;
+  .scenario-panel {
+    grid-template-columns: 1fr !important;
   }
 
-  .refined-agentic-card {
-    grid-column: auto;
+  .scenario-panel > div:first-child,
+  .metric-mini-grid,
+  .scenario-agentic-card:nth-child(1),
+  .scenario-agentic-card:nth-child(2),
+  .refined-agentic-card,
+  .scenario-visual-card:nth-child(1),
+  .scenario-visual-card:nth-child(2) {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+  }
+
+  .scenario-agentic-grid,
+  .scenario-visual-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
   }
 }
