@@ -69,7 +69,6 @@
         <p class="eyebrow">Project page</p>
         <h1>AgenticRL</h1>
         <h2>Self-Refining Agentic Reinforcement Learning for Vision-Conditioned UAV Navigation</h2>
-        <p class="authors">Roohan Ahmed Khan · Yasheerah Yaqoot · Amir Atef Habel · Muhammad Ahsan Mustafa · Dzmitry Tsetserukou</p>
         <p class="hero-text">
           AgenticRL is a self-refining agentic reinforcement learning framework for vision-conditioned UAV navigation. A multimodal agent diagnoses policy behavior, refines reward functions, and improves learning from simulation to real-world UAV deployment.
         </p>
@@ -308,7 +307,7 @@
       </div>
     </section>
 
-    <section class="section-shell" id="reward-evolution">
+    <!-- <section class="section-shell" id="reward-evolution">
       <div class="section-heading">
         <p class="eyebrow">Reward evolution</p>
         <h2>Improvement across refinement epochs</h2>
@@ -341,7 +340,7 @@
           <p>Reward forms an orbit-aware field around the desired circular motion region.</p>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="section-shell" id="videos">
       <div class="section-heading">
@@ -350,21 +349,14 @@
         <p>Put your main demo video and individual scenario clips in the <code>videos/</code> folder. The page will automatically show them once filenames match.</p>
       </div>
       <div class="demo-feature">
-        <video controls poster="assets/title_fig.png">
-          <source src="videos/main_demo.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <div class="drive-embed">
+          <iframe src="https://drive.google.com/file/d/18fGDRu3j15462PogOA2X2IRnrtb_7WtZ/preview" allow="autoplay" allowfullscreen></iframe>
+        </div>
         <div>
           <h3>Full AgenticRL demo</h3>
-          <p>Recommended length: 1–2 minutes. Include method overview, reward refinement, simulation rollouts, and real-world execution.</p>
-          <a class="button primary" href="videos/main_demo.mp4">Open demo video</a>
+          <p>This embedded demo summarizes the framework, reward refinement, simulation rollouts, and real-world UAV execution.</p>
+          <a class="button primary" href="https://drive.google.com/file/d/18fGDRu3j15462PogOA2X2IRnrtb_7WtZ/view?usp=sharing" target="_blank" rel="noopener">Open demo video</a>
         </div>
-      </div>
-      <div class="video-grid">
-        <article><video controls><source src="videos/trajectory_following.mp4" type="video/mp4" /></video><h3>Trajectory following</h3></article>
-        <article><video controls><source src="videos/gate_traversal.mp4" type="video/mp4" /></video><h3>Gate traversal</h3></article>
-        <article><video controls><source src="videos/obstacle_landing.mp4" type="video/mp4" /></video><h3>Obstacle avoidance & landing</h3></article>
-        <article><video controls><source src="videos/circular_motion.mp4" type="video/mp4" /></video><h3>Circular motion</h3></article>
       </div>
     </section>
 
