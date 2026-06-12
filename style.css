@@ -145,3 +145,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Shift scenario metric boxes slightly left */
+.scenario-panel {
+  grid-template-columns: 1fr 430px;
+}
+
+.metric-mini-grid {
+  transform: translateX(-45px);
+}
+
+@media (max-width: 980px) {
+  .metric-mini-grid {
+    transform: none;
+  }
+}
