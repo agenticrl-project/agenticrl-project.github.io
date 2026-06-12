@@ -268,9 +268,19 @@
       
             <div class="task-media-frame">
               <img id="taskMediaImage" src="assets/task_input_trajectory.png" alt="Trajectory following task input image" />
+            
               <video id="taskMediaVideo" muted loop autoplay playsinline controls style="display:none;">
                 <source id="taskMediaVideoSource" src="" type="video/mp4" />
               </video>
+            
+              <iframe
+                id="taskMediaIframe"
+                src=""
+                title="Task input video"
+                allow="autoplay"
+                allowfullscreen
+                style="display:none;">
+              </iframe>
             </div>
       
             <p class="scenario-media-caption" id="taskMediaCaption">
