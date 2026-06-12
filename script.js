@@ -562,8 +562,8 @@ def compute_reward(obs, collision_flag):
     gifAlt: "Circular motion reward evolution",
     gifCaption: "Reward forms an orbit-aware field centered on the desired circular motion.",
 
-    taskMediaType: "video",
-    taskMediaSrc: "videos/motion_gen.mp4",
+    taskMediaType: "iframe",
+    taskMediaSrc: "https://drive.google.com/file/d/17OmOJ3f47qud4cnAWrz4ELMAqA53ueE9/preview",
     taskMediaAlt: "Circular motion task input video",
     taskMediaCaption: "Motion clip provided as visual context for learning circular behavior.",
 
