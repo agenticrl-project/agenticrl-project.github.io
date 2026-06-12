@@ -278,7 +278,7 @@ def compute_reward(obs, collision_flag):
     gifCaption: "Reward balances progress to the landing pad with obstacle-clearance penalties.",
 
     taskMediaType: "image",
-    taskMediaSrc: "assets/task_input_obstacle.jpg",
+    taskMediaSrc: "assets/task_input_obstacle.png",
     taskMediaAlt: "Obstacle avoidance and landing task input image",
     taskMediaCaption: "Scene image with obstacles and landing pad used for reward generation.",
 
