@@ -230,7 +230,7 @@
       </div>
     </section> -->
 
-    <section class="section-shell" id="results">
+    <!-- <section class="section-shell" id="results">
       <div class="section-heading">
         <p class="eyebrow">Results</p>
         <h2>Scenario-wise Deployment and Reward Evolution</h2>
@@ -309,8 +309,142 @@
         <img src="assets/sim2real_bar_chart.png" alt="Simulation success rate, real-world success rate, and sim-to-real accuracy chart" />
         <p class="caption">Scenario-wise simulation success rate, real-world success rate, and sim-to-real transfer accuracy.</p>
       </div>
+    </section> -->
+    
+    <section class="section-shell" id="results">
+      <div class="section-heading">
+        <p class="eyebrow">Results</p>
+        <h2>Scenario-wise Deployment and Reward Evolution</h2>
+        <p>Each scenario stresses a different aspect of reward design: progress, safety, collision avoidance, landing precision, or motion generation. Select a tab to view the task summary, real-world trajectory, and reward-evolution animation.</p>
+      </div>
+    
+      <div class="scenario-tabs" role="tablist">
+        <button class="tab active" data-scenario="trajectory">Trajectory Following</button>
+        <button class="tab" data-scenario="gate">Gate Traversal</button>
+        <button class="tab" data-scenario="obstacle">Obstacle + Landing</button>
+        <button class="tab" data-scenario="barrier">Barrier + Landing</button>
+        <button class="tab" data-scenario="circular">Circular Motion</button>
+      </div>
+    
+      <div class="scenario-panel">
+        <div>
+          <h3 id="scenarioTitle">Trajectory Following</h3>
+          <p id="scenarioText">Follow a target trajectory while minimizing deviation and maintaining stable UAV motion.</p>
+          <ul class="clean-list" id="scenarioBullets">
+            <li>Primary objective: path progress and low deviation.</li>
+            <li>Failure condition: large path deviation or collision.</li>
+            <li>Best for showing reward shaping over trajectories.</li>
+          </ul>
+        </div>
+    
+        <div class="metric-mini-grid">
+          <div><strong id="ssrBox">93%</strong><span>SSR</span></div>
+          <div><strong id="rsrBox">90%</strong><span>RSR</span></div>
+          <div><strong id="s2rBox">97%</strong><span>S2R</span></div>
+        </div>
+    
+        <div class="scenario-visual-grid">
+          <div class="scenario-visual-card">
+            <h4>Real-world trajectory</h4>
+            <img id="scenarioPlot" src="assets/traj_follow.png" alt="Trajectory following real-world plot" />
+            <p class="scenario-media-caption" id="scenarioPlotCaption">Executed trajectory colored by velocity magnitude.</p>
+          </div>
+    
+          <div class="scenario-visual-card">
+            <h4>Reward evolution</h4>
+            <img id="scenarioGif" src="videos/traj_reward.gif" alt="Trajectory following reward evolution" />
+            <p class="scenario-media-caption" id="scenarioGifCaption">Reward refinement across improvement epochs.</p>
+          </div>
+        </div>
+      </div>
+    
+      <div class="section-heading subsection-heading">
+        <h2>Onboard Inference Pipeline</h2>
+        <p>The trained policy is selected from the scenario registry and deployed through the onboard ROS2-based inference pipeline for real-time UAV execution.</p>
+      </div>
+    
+      <div class="figure-card wide">
+        <img src="assets/inference_pipeline.png" alt="Onboard inference pipeline for AgenticRL real-world UAV deployment" />
+        <p class="caption">Real-world inference pipeline showing scenario selection, policy retrieval, observation construction, and closed-loop UAV control.</p>
+      </div>
+    
+      <div class="section-heading subsection-heading">
+        <h2>Sim-to-real Validation</h2>
+        <p>Scenario-wise results compare simulation success, real-world success, and sim-to-real transfer accuracy across the evaluated UAV navigation tasks.</p>
+      </div>
+    
+      <div class="table-card">
+        <div class="table-topline">
+          <h3>Main quantitative comparison</h3>
+          <input class="table-search" data-table="mainResults" placeholder="Search scenario..." />
+        </div>
+    
+        <div class="table-wrap">
+          <table id="mainResults">
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>SSR ↑</th>
+                <th>RSR ↑</th>
+                <th>S2R ↑</th>
+                <th>Primary evaluation criterion</th>
+              </tr>
+            </thead>
+    
+            <tbody>
+              <tr>
+                <td>Trajectory Following</td>
+                <td>93%</td>
+                <td>90%</td>
+                <td>97%</td>
+                <td>Deviation from reference path and collision-free completion</td>
+              </tr>
+              <tr>
+                <td>Gate Traversal</td>
+                <td>100%</td>
+                <td>100%</td>
+                <td>100%</td>
+                <td>Successful traversal through gate center</td>
+              </tr>
+              <tr>
+                <td>Obstacle Avoidance &amp; Landing</td>
+                <td>96%</td>
+                <td>82%</td>
+                <td>85%</td>
+                <td>Collision avoidance and landing success</td>
+              </tr>
+              <tr>
+                <td>Wall Barrier Crossing &amp; Land</td>
+                <td>95%</td>
+                <td>85%</td>
+                <td>89%</td>
+                <td>Barrier crossing and controlled landing</td>
+              </tr>
+              <tr>
+                <td>Circular Motion Generation</td>
+                <td>98%</td>
+                <td>98%</td>
+                <td>100%</td>
+                <td>Stable circular motion completion</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>Collective</td>
+                <td>97%</td>
+                <td>91%</td>
+                <td>94%</td>
+                <td>Aggregate across all scenarios</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    
+      <div class="figure-card wide">
+        <img src="assets/sim2real_bar_chart.png" alt="Simulation success rate, real-world success rate, and sim-to-real accuracy chart" />
+        <p class="caption">Scenario-wise simulation success rate, real-world success rate, and sim-to-real transfer accuracy.</p>
+      </div>
     </section>
-
+    
     <section class="section-shell" id="tables">
       <div class="section-heading">
         <p class="eyebrow">Ablation Study</p>
