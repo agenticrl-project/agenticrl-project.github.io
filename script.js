@@ -86,36 +86,42 @@ def compute_reward(obs, collision_flag):
 """`,
 
     refinedPrompt: `"""
-Generate a Python reward function for an RL agent whose goal is to smoothly follow a trajectory
-defined by five ordered future waypoints.
+Generate a Python reward function for an RL agent whose goal is to smoothly follow a trajectory defined by five ordered future waypoints.
 
 Assume the simulator provides:
 - obs : np.array
         Shape (27,) for single drone:
-            - obs[0:3] is the drone position [x, y, z]
-            - obs[3:6] is the drone orientation [roll, pitch, yaw]
-            - obs[6:9] is the drone linear velocity [vx, vy, vz]
-            - obs[9:12] is the drone angular velocity [wx, wy, wz]
-            - obs[12:15] is the first relative trajectory point
-            - obs[15:18] is the second relative trajectory point
-            - obs[18:21] is the third relative trajectory point
-            - obs[21:24] is the fourth relative trajectory point
-            - obs[24:27] is the fifth relative trajectory point
+        - obs[0:3] is the drone position [x, y, z]
+        - obs[3:6] is the drone orientation [roll, pitch, yaw]
+        - obs[6:9] is the drone linear velocity [vx, vy, vz]
+        - obs[9:12] is the drone angular velocity [wx, wy, wz]
+        - obs[12:15] is the first relative trajectory point [p1_x - drone_x, p1_y - drone_y, p1_z - drone_z]
+        - obs[15:18] is the second relative trajectory point [p2_x - drone_x, p2_y - drone_y, p2_z - drone_z]
+        - obs[18:21] is the third relative trajectory point [p3_x - drone_x, p3_y - drone_y, p3_z - drone_z]
+        - obs[21:24] is the fourth relative trajectory point [p4_x - drone_x, p4_y - drone_y, p4_z - drone_z]
+        - obs[24:27] is the fifth relative trajectory point [p5_x - drone_x, p5_y - drone_y, p5_z - drone_z]
 
 - collision_flag : bool
 
 Task objective:
 - The drone should continuously follow the trajectory smoothly.
-- Reward should encourage staying close to the entire future trajectory while progressing forward along the trajectory direction.
-- The reward should behave like trajectory tracking rather than sparse waypoint reaching.
+- Reward should encourage staying close to the future trajectory while making real forward progress through the ordered waypoint list.
+- The reward should behave like trajectory tracking, not sparse waypoint reaching.
+
+Important diagnosis-driven guidance:
+- The previous reward over-rewarded general proximity to multiple future points and local tangent alignment, which let the policy hover near the path or near later points without consistently satisfying ordered progress.
+- Include a dense progress term that rewards reducing the near-horizon tracking error from one step to the next if possible using only current observation quantities in a stable way, or otherwise use a formulation that more strongly prefers being close to the earliest future points.
+- Keep a forward-motion term based on velocity alignment with a local trajectory tangent, but make it secondary to tracking and preferably effective only when the drone is reasonably close to the near trajectory.
+- Use smooth rewards only; avoid sparse waypoint bonuses and avoid hard switching logic.
+- Avoid rewarding unordered proximity to far future points so much that the agent can bypass the first waypoint.
 
 Reward design requirements:
 - Keep the reward simple and stable.
 - Use dense reward shaping.
-- Use weighted distances to all future trajectory points, with larger weights for nearer points.
-- Use smooth exponential distance shaping instead of sparse waypoint bonuses.
-- Encourage forward motion along the trajectory direction using velocity alignment with the local trajectory tangent.
-- Avoid hard switching between active waypoints.
+- Use weighted distances to all future trajectory points.
+- Use smooth exponential or similarly smooth distance shaping.
+- Encourage forward motion along the local trajectory direction using velocity alignment with the local tangent.
+- Make sure the reward better supports finishing the full ordered five-point trajectory, not just tracking the first few points.
 - Penalize collision strongly.
 - Avoid unrelated reward terms.
 
@@ -212,20 +218,30 @@ def compute_reward(obs, collision_flag):
 """`,
 
     refinedPrompt: `"""
-Generate a Python reward function for an RL agent whose goal is to fly towards the gate's center shown in the scene.
+Generate a Python reward function for an RL agent whose goal is to fly to the gate center position.
 
 Assume the simulator provides:
 - obs : np.array
         Shape (16,) for single drone:
-        [pos(:3), rpy(3:6), vel(6:9), ang_vel(9:12), gate(12:15) are x-coordinate of gate's center, y-coordinate of gate's center, z-coordinate of gate's center, and gate(15) are => gate_orientation]
+        [pos(:3), rpy(3:6), vel(6:9), ang_vel(9:12), gate(12:15) are x, y, z of the gate center, and gate(15) is gate_orientation]
 - collision_flag : bool
 
-Requirements:
-- Design a reward that moves towards the gate's center.
-- Reward should be very high at gate's center.
-- Do not add unnecessary components.
-- Output only valid Python code.
-- Write exactly this function:
+Task objective:
+- Reward the drone for approaching and reaching the gate center position.
+- Success depends on getting very close to the gate center, so the reward must strongly encourage closing the final gap, not just making partial progress.
+- The task is only to approach the gate center. Do not reward passing through the gate, aligning with gate yaw, or obstacle avoidance.
+
+Reward design guidance:
+- Use the Euclidean distance from drone position to gate center as the main signal.
+- Provide a strong, smooth reward for reducing that distance.
+- Make the reward much larger when the drone is very close to the gate center.
+- Include a clear bonus for being inside a small target region near the center so the policy does not stop short.
+- Keep the reward simple and stable. Prefer a small number of terms directly tied to target distance.
+- Penalize collisions.
+- Avoid unnecessary components such as attitude penalties, velocity shaping, gate-crossing terms, or yaw-alignment terms.
+
+Output only valid Python code.
+Write exactly this function:
 
 def compute_reward(obs, collision_flag):
     ...
@@ -318,30 +334,34 @@ def compute_reward(obs, collision_flag):
 """`,
 
     refinedPrompt: `"""
-Generate a Python reward function for an RL agent whose goal is to avoid three cylindrical obstacles and land on the target point.
+Generate a Python reward function for an RL agent whose goal is to avoid three cylindrical obstacles and land on the landing pad.
 
 Assume the simulator provides:
 - obs : np.array
-        Shape (21,) for single drone:
+        Shape (21,) for a single drone:
         [drone_state_features..., landing_pad(12:15), obstacle_1_xy(15:17), obstacle_2_xy(17:19), obstacle_3_xy(19:21)]
         where:
-            - obs[0:3] is the drone position [x, y, z]
-            - obs[12:15] is the landing pad position [x, y, z]
-            - obs[15:17], obs[17:19], and obs[19:21] are the x,y centers of the three obstacles
+        - obs[0:3] is the drone position [x, y, z]
+        - obs[12:15] is the landing pad position [x, y, z]
+        - obs[15:17], obs[17:19], and obs[19:21] are the x,y centers of the three obstacles
 - collision_flag : bool
 
 Task objective:
-- The drone should safely avoid all three cylindrical obstacles and reach the landing pad target point.
-- Success means reaching the landing target region without collision and without violating clearance around any obstacle.
+- The drone should safely avoid all three cylindrical obstacles and reach the landing pad target region.
+- Success means reaching the landing pad within 0.25 m, with no collision, and keeping at least 0.02 m clearance from every obstacle.
+- Each obstacle has radius 0.2 m, and obstacle safety should be evaluated in the XY plane.
 
 Reward design requirements:
 - Keep the reward simple and stable.
-- Use progress toward the landing pad as the main signal.
-- Encourage maintaining safe clearance from the nearest obstacle while still making progress to the target.
-- Use the minimum clearance over all obstacles when applying obstacle penalties.
-- Reward precise arrival at the landing target.
-- Penalize collision.
-- Do not use speed as a success metric or add unrelated shaping terms.
+- Use progress toward the landing pad as the main dense signal.
+- Use the minimum true obstacle clearance over all three obstacles, where true clearance = XY distance to obstacle center minus 0.2.
+- Penalize low true clearance smoothly, with stronger penalty as the minimum true clearance approaches 0.02 m and becomes negative.
+- Encourage maintaining a modest safe buffer from the nearest obstacle while still allowing legal paths that pass closer than a large margin.
+- Reward precise arrival at the landing pad when the drone is near the target and has not collided.
+- Penalize collision strongly.
+- Do not use speed, action magnitude, attitude, or unrelated shaping terms.
+- Do not require an excessively large obstacle margin for the arrival bonus; the reward should match the actual task success threshold rather than a much stricter one.
+- Avoid brittle or overly complex piecewise logic.
 
 Implementation requirements:
 - Output only valid Python code.
@@ -452,29 +472,46 @@ def compute_reward(obs, collision_flag):
 """`,
 
     refinedPrompt: `"""
-Generate a Python reward function for an RL agent whose goal is to cross over the wall barrier shown in the scene and then land on the yellow landing pad.
+Generate a Python reward function for an RL agent whose goal is to cross over the wall barrier and then land on the yellow landing pad.
 
 Assume the simulator provides:
 - obs : np.array
-        Shape (18,) for single drone:
-            [drone_state_features..., landing_pad(12:15), obstacle_center(15:17), obstacle_height(17)]
+        Shape (18,) for a single drone:
+        [drone_state_features..., landing_pad(12:15), obstacle_center(15:17), obstacle_height(17)]
         where:
-            - obs[0:3] is the drone position [x, y, z]
-            - obs[12:15] is the landing pad position [x, y, z]
-            - obs[15:17] is the wall center position [x, y]
-            - obs[17] is the wall height
+        - obs[0:3] is the drone position [x, y, z]
+        - obs[12:15] is the landing pad position [x, y, z]
+        - obs[15:17] is the wall center position [x, y]
+        - obs[17] is the wall height
 - collision_flag : bool
 
 Task objective:
-- The drone should cross the wall barrier and then reach the landing pad target point.
-- The barrier blocks direct planar motion, so the reward should encourage valid barrier-crossing behavior rather than sideways avoidance.
+- The drone must cross to the landing-pad side of the wall barrier and then reach the landing pad.
+- A valid solution should encourage crossing over the wall, not staying on the start side and not going around sideways.
 
-Reward design requirements:
-- Keep the reward simple and stable.
-- Use progress toward the landing pad as a main signal.
-- Reward successful post-cross approach and precise arrival at the landing target.
+Important reward guidance based on prior failure:
+- The previous reward over-emphasized raw distance to the landing pad and only gave crossing reward after crossing, which led to approach on the wrong side of the wall without ever crossing.
+- Therefore, use a simple phase-aware reward:
+  1) before crossing, reward progress toward the landing-pad side of the barrier plane,
+  2) when near the wall on the start side, give a modest incentive to be high enough to clear the wall,
+  3) give a clear bonus for actually crossing onto the landing-pad side with positive margin,
+  4) after crossing, reward progress toward the landing pad and precise arrival.
+- Keep the design simple and stable. Use only a few task-relevant terms.
+
+Implementation details to encourage:
+- Compute a signed barrier-side progress value using the wall center and the wall-to-pad direction in the xy plane.
+- Detect whether the drone is on the landing-pad side of the barrier plane.
+- Before crossing, reward increasing signed progress toward the landing-pad side.
+- Only when the drone is reasonably near the wall on the start side, add a small reward for being above or near wall height, so the drone learns to go over the wall rather than just approach it.
+- After crossing, make progress toward the landing pad the main signal.
+- Add a stronger bonus for reaching the landing pad precisely after crossing.
 - Penalize collision.
+
+What to avoid:
+- Do not use raw negative distance to the landing pad as the only dense signal for the whole episode.
 - Do not add unrelated shaping terms.
+- Do not reward generic altitude everywhere; only use altitude in a simple, task-specific near-wall pre-cross way.
+- Do not encourage sideways avoidance around the wall.
 
 Implementation requirements:
 - Output only valid Python code.
@@ -568,7 +605,7 @@ def compute_reward(obs, collision_flag):
     taskMediaCaption: "Motion clip provided as visual context for learning circular behavior.",
 
     userPrompt: `"""
-Generate a Python reward function for an RL agent whose goal is to learn a circular motion behavior as seen in the video.
+Generate a Python reward function for an RL agent whose goal is to learn circular motion behavior as seen in the video.
 
 Assume the simulator provides:
 - obs : np.array
@@ -581,8 +618,8 @@ Assume the simulator provides:
 - collision_flag : bool
 
 Task objective:
-- The drone should create a 1 meter radius circular motion in xy plane at height of 1 meter.
-- Reward should encourage learning this specific motion without diverging.
+- The drone should learn to move in a circular pattern.
+- Reward should encourage stable circular motion without drifting away.
 
 Reward design requirements:
 - Keep the reward simple and stable.
