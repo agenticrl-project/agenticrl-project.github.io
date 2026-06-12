@@ -165,3 +165,13 @@
 .subsection-heading {
   margin-top: 70px;
 }
+
+.comparison-table sup a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.comparison-table sup a:hover {
+  text-decoration: underline;
+}
