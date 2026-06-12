@@ -187,7 +187,7 @@
       </div>
     </section>
 
-    <section class="section-shell" id="scenarios">
+    <!-- <section class="section-shell" id="scenarios">
       <div class="section-heading">
         <p class="eyebrow">Scenarios</p>
         <h2>UAV navigation tasks</h2>
@@ -228,11 +228,51 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="section-shell" id="results">
       <div class="section-heading">
         <p class="eyebrow">Results</p>
+        <h2>UAV navigation tasks</h2>
+        <p>Each scenario stresses a different aspect of reward design: progress, safety, collision avoidance, landing precision, or motion generation. Select a tab to view the task summary, real-world trajectory, and reward-evolution animation.</p>
+      </div>
+      <div class="scenario-tabs" role="tablist">
+        <button class="tab active" data-scenario="trajectory">Trajectory Following</button>
+        <button class="tab" data-scenario="gate">Gate Traversal</button>
+        <button class="tab" data-scenario="obstacle">Obstacle + Landing</button>
+        <button class="tab" data-scenario="barrier">Barrier + Landing</button>
+        <button class="tab" data-scenario="circular">Circular Motion</button>
+      </div>
+      <div class="scenario-panel">
+        <div>
+          <h3 id="scenarioTitle">Trajectory Following</h3>
+          <p id="scenarioText">Follow a target trajectory while minimizing deviation and maintaining stable UAV motion.</p>
+          <ul class="clean-list" id="scenarioBullets">
+            <li>Primary objective: path progress and low deviation.</li>
+            <li>Failure condition: large path deviation or collision.</li>
+            <li>Best for showing reward shaping over trajectories.</li>
+          </ul>
+        </div>
+        <div class="metric-mini-grid">
+          <div><strong id="ssrBox">93%</strong><span>SSR</span></div>
+          <div><strong id="rsrBox">90%</strong><span>RSR</span></div>
+          <div><strong id="s2rBox">97%</strong><span>S2R</span></div>
+        </div>
+        <div class="scenario-visual-grid">
+          <div class="scenario-visual-card">
+            <h4>Real-world trajectory</h4>
+            <img id="scenarioPlot" src="assets/traj_follow.png" alt="Trajectory following real-world plot" />
+            <p class="scenario-media-caption" id="scenarioPlotCaption">Executed trajectory colored by velocity magnitude.</p>
+          </div>
+          <div class="scenario-visual-card">
+            <h4>Reward evolution</h4>
+            <img id="scenarioGif" src="videos/traj_reward.gif" alt="Trajectory following reward evolution" />
+            <p class="scenario-media-caption" id="scenarioGifCaption">Reward refinement across improvement epochs.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-heading">
         <h2>Sim-to-real Validation</h2>
         <p>Scenario-wise results compare simulation success, real-world success, and sim-to-real transfer accuracy across the evaluated UAV navigation tasks.</p>
       </div>
