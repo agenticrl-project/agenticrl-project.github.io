@@ -470,3 +470,68 @@ footer {
     margin-top: 30px !important;
   }
 }
+
+/* ---------- Tighter section stacking ---------- */
+
+/* Reduce bottom padding so next section starts sooner */
+.section-shell {
+  padding-top: 46px !important;
+  padding-bottom: 28px !important;
+}
+
+/* Keep demo section comfortable but not too tall */
+#videos.section-shell {
+  padding-bottom: 30px !important;
+}
+
+/* Bring overview/literature/results closer to the previous section */
+#overview.section-shell,
+#literature.section-shell,
+#method.section-shell,
+#results.section-shell,
+#tables.section-shell,
+#paper.section-shell,
+#citation.section-shell {
+  padding-top: 38px !important;
+}
+
+/* Reduce the blank space after cards/figures inside sections */
+.problem-grid,
+.table-card,
+.figure-card,
+.demo-feature,
+.scenario-panel {
+  margin-bottom: 0 !important;
+}
+
+/* Reduce heading vertical spacing */
+.section-heading {
+  margin-bottom: 18px !important;
+}
+
+.section-heading h2 {
+  margin-bottom: 10px !important;
+}
+
+/* Make the border closer to the section content */
+.section-shell + .section-shell {
+  margin-top: 0 !important;
+}
+
+/* Mobile */
+@media (max-width: 980px) {
+  .section-shell {
+    padding-top: 34px !important;
+    padding-bottom: 24px !important;
+  }
+
+  #overview.section-shell,
+  #literature.section-shell,
+  #method.section-shell,
+  #results.section-shell,
+  #tables.section-shell,
+  #paper.section-shell,
+  #citation.section-shell {
+    padding-top: 30px !important;
+  }
+}
