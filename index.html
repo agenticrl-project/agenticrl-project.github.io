@@ -375,20 +375,103 @@
             <li>Best for showing reward shaping over trajectories.</li>
           </ul>
         </div>
-    
+      
         <div class="metric-mini-grid">
           <div><strong id="ssrBox">93%</strong><span>SSR</span></div>
           <div><strong id="rsrBox">90%</strong><span>RSR</span></div>
           <div><strong id="s2rBox">97%</strong><span>S2R</span></div>
         </div>
-    
+      
+        <!-- New: task input + refined output -->
+        <div class="scenario-agentic-grid">
+          <div class="scenario-agentic-card">
+            <div class="agentic-label-row">
+              <span class="agentic-chip">Task Input</span>
+              <h4>Scene Image / Video</h4>
+            </div>
+      
+            <div class="task-media-frame">
+              <img id="taskMediaImage" src="assets/task_input_trajectory.jpg" alt="Trajectory following task input image" />
+              <video id="taskMediaVideo" muted loop autoplay playsinline controls style="display:none;">
+                <source src="" type="video/mp4" />
+              </video>
+            </div>
+      
+            <p class="scenario-media-caption" id="taskMediaCaption">
+              Visual scene input provided to the multimodal reward generator.
+            </p>
+          </div>
+      
+          <div class="scenario-agentic-card">
+            <div class="agentic-label-row">
+              <span class="agentic-chip">Task Input</span>
+              <h4>User Prompt</h4>
+            </div>
+      
+            <pre class="prompt-box" id="scenarioUserPrompt">"""Generate a Python reward function for an RL agent whose goal is to smoothly follow a trajectory defined by five ordered future waypoints."""</pre>
+          </div>
+      
+          <div class="scenario-agentic-card refined-agentic-card">
+            <div class="agentic-label-row">
+              <span class="agentic-chip refined-chip">Refined Output</span>
+              <h4>Refined Prompt and Reward</h4>
+            </div>
+      
+            <div class="refined-stack">
+              <div>
+                <h5 class="mini-subheading">Refined Prompt</h5>
+                <pre class="prompt-box" id="scenarioRefinedPrompt">"""Generate a Python reward function for an RL agent whose goal is to smoothly follow a trajectory defined by five ordered future waypoints."""</pre>
+              </div>
+      
+              <div>
+                <h5 class="mini-subheading">Refined Reward Code</h5>
+                <pre class="code-box" id="scenarioRewardCode">import numpy as np
+      
+      def compute_reward(obs, collision_flag):
+          obs = np.asarray(obs, dtype=np.float32)
+      
+          vel = obs[6:9]
+          rel_pts = obs[12:27].reshape(5, 3)
+      
+          if collision_flag:
+              return -10.0
+      
+          dist_weights = np.array([0.6, 0.6, 0.8, 0.9, 1.4], dtype=np.float32)
+          dists = np.linalg.norm(rel_pts, axis=1)
+          track_terms = np.exp(-1.5 * dists)
+          tracking_reward = np.sum(dist_weights * track_terms) / np.sum(dist_weights)
+      
+          tangent_weights = np.array([1.0, 0.7, 0.4, 0.2], dtype=np.float32)
+          segs = rel_pts[1:] - rel_pts[:-1]
+          seg_norms = np.linalg.norm(segs, axis=1, keepdims=True)
+          seg_dirs = segs / np.clip(seg_norms, 1e-6, None)
+          local_tangent = np.sum(tangent_weights[:, None] * seg_dirs, axis=0)
+      
+          tangent_norm = np.linalg.norm(local_tangent)
+          speed = np.linalg.norm(vel)
+      
+          if tangent_norm > 1e-6 and speed > 1e-6:
+              tangent_dir = local_tangent / tangent_norm
+              vel_dir = vel / speed
+              alignment = np.dot(vel_dir, tangent_dir)
+              forward_reward = 0.5 * max(0.0, alignment) * (1.0 - np.exp(-0.5 * speed))
+          else:
+              forward_reward = 0.0
+      
+          reward = 1.0 * tracking_reward + forward_reward
+          return float(reward)</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      
         <div class="scenario-visual-grid">
           <div class="scenario-visual-card">
             <h4>Real-world trajectory</h4>
             <img id="scenarioPlot" src="assets/traj_follow.png" alt="Trajectory following real-world plot" />
             <p class="scenario-media-caption" id="scenarioPlotCaption">Executed trajectory colored by velocity magnitude.</p>
           </div>
-    
+      
           <div class="scenario-visual-card">
             <h4>Reward evolution</h4>
             <img id="scenarioGif" src="videos/traj_reward.gif" alt="Trajectory following reward evolution" />
