@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgenticRL | Anonymous Project Page</title>
+  <meta name="description" content="Project page for AgenticRL: Self-Refining Agentic Reinforcement Learning for Vision-Conditioned UAV Navigation." />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .scenario-visual-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    .scenario-visual-card {
+      background: var(--card, #ffffff);
+      border: 1px solid var(--border, #dbe7f3);
+      border-radius: 18px;
+      padding: 0.9rem;
+      box-shadow: 0 10px 24px rgba(24, 52, 88, 0.06);
+    }
+    .scenario-visual-card h4 {
+      margin: 0 0 0.65rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+    }
+    .scenario-visual-card img,
+    .scenario-visual-card video {
+      width: 100%;
+      display: block;
+      border-radius: 14px;
+      background: #ffffff;
+      object-fit: contain;
+    }
+    .scenario-media-caption {
+      margin: 0.65rem 0 0;
+      color: var(--muted, #5e6a7d);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    @media (max-width: 850px) {
+      .scenario-visual-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home"><span class="brand-mark">A</span>AgenticRL</a>
+    <nav class="navlinks" aria-label="Primary navigation">
+      <a href="#overview">Overview</a>
+      <a href="#literature">Literature</a>
+      <a href="#method">Method</a>
+      <a href="#scenarios">Scenarios</a>
+      <a href="#results">Results</a>
+      <a href="#tables">Ablation</a>
+      <a href="#videos">Demos</a>
+      <a href="#citation">Citation</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☾</button>
+  </header>
+
+  <main id="home">
+    <section class="hero section-shell">
+      <div class="hero-copy">
+        <p class="eyebrow">Project page</p>
+        <h1>AgenticRL</h1>
+        <h2>Self-Refining Agentic Reinforcement Learning for Vision-Conditioned UAV Navigation</h2>
+        <p class="hero-text">
+          AgenticRL is a self-refining agentic reinforcement learning framework for vision-conditioned UAV navigation. A multimodal agent diagnoses policy behavior, refines reward functions, and improves learning from simulation to real-world UAV deployment.
+        </p>
+        <div class="button-row">
+          <a class="button primary" href="https://arxiv.org/pdf/2606.03963v3" target="_blank" rel="noopener">Paper</a>
+          <a class="button" href="#code">Code Coming Soon</a>
+          <a class="button" href="#videos">Demo Video</a>
+          <a class="button" href="#citation">BibTeX</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img src="assets/title_fig.png" alt="AgenticRL teaser showing task context, reward evolution, and UAV policy deployment" />
+        <p class="caption">Task context and visual feedback guide reward evolution, policy training, and real-world UAV deployment.</p>
+      </div>
+    </section>
+
+    <section class="stats-strip" aria-label="Main quantitative highlights">
+      <div><strong>+71%</strong><span>reward refinement improvement</span></div>
+      <div><strong>91%</strong><span>collective real-world success</span></div>
+      <div><strong>94%</strong><span>collective sim-to-real accuracy</span></div>
+      <div><strong>5+</strong><span>UAV navigation scenarios</span></div>
+    </section>
+
+    <section class="section-shell" id="overview">
+      <div class="section-heading">
+        <p class="eyebrow">Overview</p>
+        <h2>Why AgenticRL?</h2>
+        <p>
+          Reward design is often the hardest part of applying RL to UAVs. AgenticRL replaces repeated manual reward redesign with a closed-loop agentic critic that reads task context, observes failures, and refines the reward.
+        </p>
+      </div>
+      <div class="problem-grid">
+        <article class="problem-card">
+          <img class="motivation-image" src="assets/motivation_1.png" alt="Illustration of human error in reward design for UAV reinforcement learning" />
+          <span>01</span>
+          <h3>Human error in reward design</h3>
+          <p>Dense reward functions are easy to write incorrectly and hard to tune across different UAV tasks.</p>
+        </article>
+        <article class="problem-card">
+          <img class="motivation-image" src="assets/motivation_2.png" alt="Illustration of unsafe and unstable UAV learning due to weak or missing feedback" />
+          <span>02</span>
+          <h3>Unsafe and unstable learning</h3>
+          <p>Without feedback, the policy can exploit shortcuts, collide, oscillate, or optimize the wrong behavior.</p>
+        </article>
+        <article class="problem-card">
+          <img class="motivation-image" src="assets/motivation_3.png" alt="Illustration of limited testing gap between simulation training and real-world UAV deployment" />
+          <span>03</span>
+          <h3>Limited UAV deployment evidence</h3>
+          <p>Agentic reward-refinement loops need validation beyond toy tasks and across real UAV scenarios.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-shell" id="literature">
+      <div class="section-heading">
+        <p class="eyebrow">Literature Overview</p>
+        <h2>Related work positioning</h2>
+        <p>AgenticRL combines reward-code generation, visual task conditioning, closed-loop agentic refinement, full task diagnosis, and UAV implementation in a single framework.</p>
+      </div>
+
+      <div class="table-card">
+        <div class="table-topline">
+          <h3>Related work positioning</h3>
+          <input class="table-search" data-table="relatedWork" placeholder="Search literature..." />
+        </div>
+        <div class="table-wrap">
+          <table id="relatedWork" class="comparison-table">
+            <thead>
+              <tr>
+                <th>Literature</th>
+                <th>Reward Code</th>
+                <th>Visual Input</th>
+                <th>Closed-loop Agentic Refinement</th>
+                <th>Full Task Diagnosis</th>
+                <th>UAV Implementation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Code as Policies <sup><a href="https://arxiv.org/abs/2209.07753" target="_blank" rel="noopener">[1]</a></sup></td>
+                <td class="no">✗</td>
+                <td class="maybe">Partial</td>
+                <td class="no">✗</td>
+                <td class="no">✗</td>
+                <td class="no">✗</td>
+              </tr>
+            
+              <tr>
+                <td>Code as Reward <sup><a href="https://arxiv.org/abs/2402.04764" target="_blank" rel="noopener">[2]</a></sup></td>
+                <td class="yes">✓</td>
+                <td class="yes">✓</td>
+                <td class="no">✗</td>
+                <td class="maybe">Subtasks</td>
+                <td class="no">✗</td>
+              </tr>
+            
+              <tr>
+                <td>Text2Reward <sup><a href="https://arxiv.org/abs/2309.11489" target="_blank" rel="noopener">[3]</a></sup></td>
+                <td class="yes">✓</td>
+                <td class="no">✗</td>
+                <td class="no">✗</td>
+                <td class="maybe">Limited logs</td>
+                <td class="no">✗</td>
+              </tr>
+            
+              <tr>
+                <td>Agents Trainer <sup><a href="https://ieeexplore.ieee.org/abstract/document/11501950/" target="_blank" rel="noopener">[4]</a></sup></td>
+                <td class="yes">✓</td>
+                <td class="no">✗</td>
+                <td class="yes">✓</td>
+                <td class="maybe">Error logs only</td>
+                <td class="yes">✓</td>
+              </tr>
+            
+              <tr class="highlight-row">
+                <td><b>AgenticRL</b></td>
+                <td class="yes">✓</td>
+                <td class="yes">✓</td>
+                <td class="yes">✓</td>
+                <td class="yes">✓</td>
+                <td class="yes">✓</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Comparison of prior approaches and AgenticRL across reward-code generation, visual conditioning, closed-loop refinement, task diagnosis, and UAV implementation.</p>
+      </div>
+    </section>
+
+    <section class="section-shell" id="method">
+      <div class="section-heading">
+        <p class="eyebrow">Method</p>
+        <h2>Closed-loop reward refinement framework</h2>
+        <p>The website uses the full system architecture figure as the main method anchor, then breaks the pipeline into reviewer-friendly interactive steps.</p>
+      </div>
+      <div class="figure-card wide">
+        <img src="assets/sys_arch.png" alt="Offline closed-loop AgenticRL framework and real-world deployment pipeline" />
+        <p class="caption">Offline AgenticRL loop: multimodal input → reward generation → policy training → evaluation and diagnosis → reward refinement → deployment.</p>
+      </div>
+      <div class="timeline" id="pipelineSteps">
+        <button class="timeline-step active" data-panel="p1"><b>1</b><span>Multimodal task input</span></button>
+        <button class="timeline-step" data-panel="p2"><b>2</b><span>Reward generation</span></button>
+        <button class="timeline-step" data-panel="p3"><b>3</b><span>Policy training</span></button>
+        <button class="timeline-step" data-panel="p4"><b>4</b><span>Evaluation & diagnosis</span></button>
+        <button class="timeline-step" data-panel="p5"><b>5</b><span>Reward refinement</span></button>
+        <button class="timeline-step" data-panel="p6"><b>6</b><span>Deployment</span></button>
+      </div>
+      <div class="panel-stack">
+        <article class="info-panel active" id="p1"><h3>Multimodal task input</h3><p>The system receives task text with an image or video of the scene, allowing the agent to infer objects, goals, and safety constraints.</p></article>
+        <article class="info-panel" id="p2"><h3>Reward generation</h3><p>The multimodal critic produces a task-aligned reward function that is used for RL training in simulation.</p></article>
+        <article class="info-panel" id="p3"><h3>Policy training</h3><p>The generated reward trains a UAV policy using PPO inside the PyBullet-based simulation environment.</p></article>
+        <article class="info-panel" id="p4"><h3>Evaluation and diagnosis</h3><p>Rollouts, training curves, success rates, and failure cases are summarized and returned to the critic.</p></article>
+        <article class="info-panel" id="p5"><h3>Reward refinement</h3><p>The agent revises the reward using failure analysis, improving alignment across refinement epochs.</p></article>
+        <article class="info-panel" id="p6"><h3>Real-world deployment</h3><p>The best trained policy is retrieved and executed on the UAV through the real-world deployment pipeline.</p></article>
+      </div>
+    </section>
+
+    <!-- <section class="section-shell" id="scenarios">
+      <div class="section-heading">
+        <p class="eyebrow">Scenarios</p>
+        <h2>UAV navigation tasks</h2>
+        <p>Each scenario stresses a different aspect of reward design: progress, safety, collision avoidance, landing precision, or motion generation. Select a tab to view the task summary, real-world trajectory, and reward-evolution animation.</p>
+      </div>
+      <div class="scenario-tabs" role="tablist">
+        <button class="tab active" data-scenario="trajectory">Trajectory Following</button>
+        <button class="tab" data-scenario="gate">Gate Traversal</button>
+        <button class="tab" data-scenario="obstacle">Obstacle + Landing</button>
+        <button class="tab" data-scenario="barrier">Barrier + Landing</button>
+        <button class="tab" data-scenario="circular">Circular Motion</button>
+      </div>
+      <div class="scenario-panel">
+        <div>
+          <h3 id="scenarioTitle">Trajectory Following</h3>
+          <p id="scenarioText">Follow a target trajectory while minimizing deviation and maintaining stable UAV motion.</p>
+          <ul class="clean-list" id="scenarioBullets">
+            <li>Primary objective: path progress and low deviation.</li>
+            <li>Failure condition: large path deviation or collision.</li>
+            <li>Best for showing reward shaping over trajectories.</li>
+          </ul>
+        </div>
+        <div class="metric-mini-grid">
+          <div><strong id="ssrBox">93%</strong><span>SSR</span></div>
+          <div><strong id="rsrBox">90%</strong><span>RSR</span></div>
+          <div><strong id="s2rBox">97%</strong><span>S2R</span></div>
+        </div>
+        <div class="scenario-visual-grid">
+          <div class="scenario-visual-card">
+            <h4>Real-world trajectory</h4>
+            <img id="scenarioPlot" src="assets/traj_follow.png" alt="Trajectory following real-world plot" />
+            <p class="scenario-media-caption" id="scenarioPlotCaption">Executed trajectory colored by velocity magnitude.</p>
+          </div>
+          <div class="scenario-visual-card">
+            <h4>Reward evolution</h4>
+            <img id="scenarioGif" src="videos/traj_reward.gif" alt="Trajectory following reward evolution" />
+            <p class="scenario-media-caption" id="scenarioGifCaption">Reward refinement across improvement epochs.</p>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- <section class="section-shell" id="results">
+      <div class="section-heading">
+        <p class="eyebrow">Results</p>
+        <h2>Scenario-wise Deployment and Reward Evolution</h2>
+        <p>Each scenario stresses a different aspect of reward design: progress, safety, collision avoidance, landing precision, or motion generation. Select a tab to view the task summary, real-world trajectory, and reward-evolution animation.</p>
+      </div>
+      <div class="scenario-tabs" role="tablist">
+        <button class="tab active" data-scenario="trajectory">Trajectory Following</button>
+        <button class="tab" data-scenario="gate">Gate Traversal</button>
+        <button class="tab" data-scenario="obstacle">Obstacle + Landing</button>
+        <button class="tab" data-scenario="barrier">Barrier + Landing</button>
+        <button class="tab" data-scenario="circular">Circular Motion</button>
+      </div>
+      <div class="scenario-panel">
+        <div>
+          <h3 id="scenarioTitle">Trajectory Following</h3>
+          <p id="scenarioText">Follow a target trajectory while minimizing deviation and maintaining stable UAV motion.</p>
+          <ul class="clean-list" id="scenarioBullets">
+            <li>Primary objective: path progress and low deviation.</li>
+            <li>Failure condition: large path deviation or collision.</li>
+            <li>Best for showing reward shaping over trajectories.</li>
+          </ul>
+        </div>
+        <div class="metric-mini-grid">
+          <div><strong id="ssrBox">93%</strong><span>SSR</span></div>
+          <div><strong id="rsrBox">90%</strong><span>RSR</span></div>
+          <div><strong id="s2rBox">97%</strong><span>S2R</span></div>
+        </div>
+        <div class="scenario-visual-grid">
+          <div class="scenario-visual-card">
+            <h4>Real-world trajectory</h4>
+            <img id="scenarioPlot" src="assets/traj_follow.png" alt="Trajectory following real-world plot" />
+            <p class="scenario-media-caption" id="scenarioPlotCaption">Executed trajectory colored by velocity magnitude.</p>
+          </div>
+          <div class="scenario-visual-card">
+            <h4>Reward evolution</h4>
+            <img id="scenarioGif" src="videos/traj_reward.gif" alt="Trajectory following reward evolution" />
+            <p class="scenario-media-caption" id="scenarioGifCaption">Reward refinement across improvement epochs.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-heading">
+        <h2>Sim-to-real Validation</h2>
+        <p>Scenario-wise results compare simulation success, real-world success, and sim-to-real transfer accuracy across the evaluated UAV navigation tasks.</p>
+      </div>
+
+      <div class="table-card">
+        <div class="table-topline">
+          <h3>Main quantitative comparison</h3>
+          <input class="table-search" data-table="mainResults" placeholder="Search scenario..." />
+        </div>
+        <div class="table-wrap">
+          <table id="mainResults">
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>SSR ↑</th>
+                <th>RSR ↑</th>
+                <th>S2R ↑</th>
+                <th>Primary evaluation criterion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Trajectory Following</td><td>93%</td><td>90%</td><td>97%</td><td>Deviation from reference path and collision-free completion</td></tr>
+              <tr><td>Gate Traversal</td><td>100%</td><td>100%</td><td>100%</td><td>Successful traversal through gate center</td></tr>
+              <tr><td>Obstacle Avoidance &amp; Landing</td><td>96%</td><td>82%</td><td>85%</td><td>Collision avoidance and landing success</td></tr>
+              <tr><td>Wall Barrier Crossing &amp; Land</td><td>95%</td><td>85%</td><td>89%</td><td>Barrier crossing and controlled landing</td></tr>
+              <tr><td>Circular Motion Generation</td><td>98%</td><td>98%</td><td>100%</td><td>Stable circular motion completion</td></tr>
+              <tr class="highlight-row"><td>Collective</td><td>97%</td><td>91%</td><td>94%</td><td>Aggregate across all scenarios</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="figure-card wide">
+        <img src="assets/sim2real_bar_chart.png" alt="Simulation success rate, real-world success rate, and sim-to-real accuracy chart" />
+        <p class="caption">Scenario-wise simulation success rate, real-world success rate, and sim-to-real transfer accuracy.</p>
+      </div>
+    </section> -->
+    
+    <section class="section-shell" id="results">
+      <div class="section-heading">
+        <p class="eyebrow">Results</p>
+        <h2>Scenario-wise Deployment and Reward Evolution</h2>
+        <p>Each scenario stresses a different aspect of reward design: progress, safety, collision avoidance, landing precision, or motion generation. Select a tab to view the task summary, real-world trajectory, and reward-evolution animation.</p>
+      </div>
+    
+      <div class="scenario-tabs" role="tablist">
+        <button class="tab active" data-scenario="trajectory">Trajectory Following</button>
+        <button class="tab" data-scenario="gate">Gate Traversal</button>
+        <button class="tab" data-scenario="obstacle">Obstacle + Landing</button>
+        <button class="tab" data-scenario="barrier">Barrier + Landing</button>
+        <button class="tab" data-scenario="circular">Circular Motion</button>
+      </div>
+    
+      <div class="scenario-panel">
+        <div>
+          <h3 id="scenarioTitle">Trajectory Following</h3>
+          <p id="scenarioText">Follow a target trajectory while minimizing deviation and maintaining stable UAV motion.</p>
+          <ul class="clean-list" id="scenarioBullets">
+            <li>Primary objective: path progress and low deviation.</li>
+            <li>Failure condition: large path deviation or collision.</li>
+            <li>Best for showing reward shaping over trajectories.</li>
+          </ul>
+        </div>
+      
+        <div class="metric-mini-grid">
+          <div><strong id="ssrBox">93%</strong><span>SSR</span></div>
+          <div><strong id="rsrBox">90%</strong><span>RSR</span></div>
+          <div><strong id="s2rBox">97%</strong><span>S2R</span></div>
+        </div>
+      
+        <!-- New: task input + refined output -->
+        <div class="scenario-agentic-grid">
+          <div class="scenario-agentic-card">
+            <div class="agentic-label-row">
+              <span class="agentic-chip">Task Input</span>
+              <h4>Scene Image / Video</h4>
+            </div>
+      
+            <div class="task-media-frame">
+              <img id="taskMediaImage" src="assets/task_input_trajectory.png" alt="Trajectory following task input image" />
+              <video id="taskMediaVideo" muted loop autoplay playsinline controls style="display:none;">
+                <source id="taskMediaVideoSource" src="" type="video/mp4" />
+              </video>
+            </div>
+      
+            <p class="scenario-media-caption" id="taskMediaCaption">
+              Visual scene input provided to the multimodal reward generator.
+            </p>
+          </div>
+      
+          <div class="scenario-agentic-card">
+            <div class="agentic-label-row">
+              <span class="agentic-chip">Task Input</span>
+              <h4>User Prompt</h4>
+            </div>
+      
+            <pre class="prompt-box" id="scenarioUserPrompt">"""Generate a Python reward function for an RL agent whose goal is to smoothly follow a trajectory defined by five ordered future waypoints."""</pre>
+          </div>
+      
+          <div class="scenario-agentic-card refined-agentic-card">
+            <div class="agentic-label-row">
+              <span class="agentic-chip refined-chip">Refined Output</span>
+              <h4>Refined Prompt and Reward</h4>
+            </div>
+      
+            <div class="refined-stack">
+              <div>
+                <h5 class="mini-subheading">Refined Prompt</h5>
+                <pre class="prompt-box" id="scenarioRefinedPrompt">"""Generate a Python reward function for an RL agent whose goal is to smoothly follow a trajectory defined by five ordered future waypoints."""</pre>
+              </div>
+      
+              <div>
+                <h5 class="mini-subheading">Refined Reward Code</h5>
+                <pre class="code-box" id="scenarioRewardCode">import numpy as np
+      
+      def compute_reward(obs, collision_flag):
+          obs = np.asarray(obs, dtype=np.float32)
+      
+          vel = obs[6:9]
+          rel_pts = obs[12:27].reshape(5, 3)
+      
+          if collision_flag:
+              return -10.0
+      
+          dist_weights = np.array([0.6, 0.6, 0.8, 0.9, 1.4], dtype=np.float32)
+          dists = np.linalg.norm(rel_pts, axis=1)
+          track_terms = np.exp(-1.5 * dists)
+          tracking_reward = np.sum(dist_weights * track_terms) / np.sum(dist_weights)
+      
+          tangent_weights = np.array([1.0, 0.7, 0.4, 0.2], dtype=np.float32)
+          segs = rel_pts[1:] - rel_pts[:-1]
+          seg_norms = np.linalg.norm(segs, axis=1, keepdims=True)
+          seg_dirs = segs / np.clip(seg_norms, 1e-6, None)
+          local_tangent = np.sum(tangent_weights[:, None] * seg_dirs, axis=0)
+      
+          tangent_norm = np.linalg.norm(local_tangent)
+          speed = np.linalg.norm(vel)
+      
+          if tangent_norm > 1e-6 and speed > 1e-6:
+              tangent_dir = local_tangent / tangent_norm
+              vel_dir = vel / speed
+              alignment = np.dot(vel_dir, tangent_dir)
+              forward_reward = 0.5 * max(0.0, alignment) * (1.0 - np.exp(-0.5 * speed))
+          else:
+              forward_reward = 0.0
+      
+          reward = 1.0 * tracking_reward + forward_reward
+          return float(reward)</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="scenario-visual-grid">
+          <div class="scenario-visual-card">
+            <h4>Real-world trajectory</h4>
+            <img id="scenarioPlot" src="assets/traj_follow.png" alt="Trajectory following real-world plot" />
+            <p class="scenario-media-caption" id="scenarioPlotCaption">Executed trajectory colored by velocity magnitude.</p>
+          </div>
+      
+          <div class="scenario-visual-card">
+            <h4>Reward evolution</h4>
+            <img id="scenarioGif" src="videos/traj_reward.gif" alt="Trajectory following reward evolution" />
+            <p class="scenario-media-caption" id="scenarioGifCaption">Reward refinement across improvement epochs.</p>
+          </div>
+        </div>
+      </div>
+    
+      <div class="section-heading subsection-heading">
+        <h2>Sim-to-real Validation</h2>
+        <p>Scenario-wise results compare simulation success, real-world success, and sim-to-real transfer accuracy across the evaluated UAV navigation tasks.</p>
+      </div>
+    
+      <div class="table-card">
+        <div class="table-topline">
+          <h3>Main quantitative comparison</h3>
+          <input class="table-search" data-table="mainResults" placeholder="Search scenario..." />
+        </div>
+    
+        <div class="table-wrap">
+          <table id="mainResults">
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>SSR ↑</th>
+                <th>RSR ↑</th>
+                <th>S2R ↑</th>
+                <th>Primary evaluation criterion</th>
+              </tr>
+            </thead>
+    
+            <tbody>
+              <tr>
+                <td>Trajectory Following</td>
+                <td>93%</td>
+                <td>90%</td>
+                <td>97%</td>
+                <td>Deviation from reference path and collision-free completion</td>
+              </tr>
+              <tr>
+                <td>Gate Traversal</td>
+                <td>100%</td>
+                <td>100%</td>
+                <td>100%</td>
+                <td>Successful traversal through gate center</td>
+              </tr>
+              <tr>
+                <td>Obstacle Avoidance &amp; Landing</td>
+                <td>96%</td>
+                <td>82%</td>
+                <td>85%</td>
+                <td>Collision avoidance and landing success</td>
+              </tr>
+              <tr>
+                <td>Wall Barrier Crossing &amp; Land</td>
+                <td>95%</td>
+                <td>85%</td>
+                <td>89%</td>
+                <td>Barrier crossing and controlled landing</td>
+              </tr>
+              <tr>
+                <td>Circular Motion Generation</td>
+                <td>98%</td>
+                <td>98%</td>
+                <td>100%</td>
+                <td>Stable circular motion completion</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>Collective</td>
+                <td>97%</td>
+                <td>91%</td>
+                <td>94%</td>
+                <td>Aggregate across all scenarios</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    
+      <div class="figure-card wide">
+        <img src="assets/sim2real_bar_chart.png" alt="Simulation success rate, real-world success rate, and sim-to-real accuracy chart" />
+        <p class="caption">Scenario-wise simulation success rate, real-world success rate, and sim-to-real transfer accuracy.</p>
+      </div>
+
+      <div class="section-heading subsection-heading">
+        <h2>Onboard Inference Pipeline</h2>
+        <p>The trained policy is selected from the scenario registry and deployed through the onboard ROS2-based inference pipeline for real-time UAV execution.</p>
+      </div>
+    
+      <div class="figure-card wide">
+        <img src="assets/inference_pipeline.png" alt="Onboard inference pipeline for AgenticRL real-world UAV deployment" />
+        <p class="caption">Real-world inference pipeline showing scenario selection, policy retrieval, observation construction, and closed-loop UAV control.</p>
+      </div>
+    </section>
+    
+    <section class="section-shell" id="tables">
+      <div class="section-heading">
+        <p class="eyebrow">Ablation Study</p>
+        <h2>Ablation Study</h2>
+      </div>
+
+      <div class="table-card">
+        <div class="table-topline">
+          <h3>Ablation study across UAV scenarios</h3>
+          <input class="table-search" data-table="ablations" placeholder="Search method..." />
+        </div>
+        <div class="table-wrap">
+          <table id="ablations" class="ablation-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Trajectory Follow<br><span>SR (%)</span></th>
+                <th>Gate Traversal<br><span>SR (%)</span></th>
+                <th>Obstacle Avoidance &amp; Land<br><span>SR (%)</span></th>
+                <th>Barrier Crossing &amp; Land<br><span>SR (%)</span></th>
+                <th>Circular Motion Generation<br><span>SR (%)</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Zero-shot reward</td><td>0</td><td>80</td><td>63</td><td>0</td><td>55</td></tr>
+              <tr><td>Few-shot reward</td><td>48</td><td>74</td><td>88</td><td>72</td><td>98</td></tr>
+              <tr><td>w/o analyzer</td><td>50</td><td>61</td><td>60</td><td>52</td><td>62</td></tr>
+              <tr><td>w/o vision conditioning</td><td>87</td><td>95</td><td>65</td><td>48</td><td>76</td></tr>
+              <tr class="highlight-row"><td><b>Full AgenticRL</b></td><td><b>95</b></td><td><b>100</b></td><td><b>96</b></td><td><b>93</b></td><td><b>98</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Scenario-wise success rates for zero-shot and few-shot reward generation, ablated variants, and the full closed-loop framework.</p>
+      </div>
+    </section>
+
+    <!-- <section class="section-shell" id="reward-evolution">
+      <div class="section-heading">
+        <p class="eyebrow">Reward evolution</p>
+        <h2>Improvement across refinement epochs</h2>
+        <p>Reward colormap animations show how the agentic critic reshapes initially weak rewards into task-aligned reward fields across refinement iterations.</p>
+      </div>
+      <div class="media-grid reward-video-grid">
+        <div class="media-card">
+          <img class="reward-gif" src="./videos/traj_reward.gif" alt="Trajectory following reward evolution" />
+          <h3>Trajectory following</h3>
+          <p>Reward changes from local attraction toward trajectory-aligned progress.</p>
+        </div>
+        <div class="media-card">
+          <img class="reward-gif" src="./videos/gate_traversal.gif" alt="Gate traversal reward evolution" />
+          <h3>Gate traversal</h3>
+          <p>The reward becomes concentrated around the gate center and traversal direction.</p>
+        </div>
+        <div class="media-card">
+          <img class="reward-gif" src="./videos/avoid_obs_and_land.gif" alt="Obstacle avoidance and landing reward evolution" />
+          <h3>Obstacle avoidance and landing</h3>
+          <p>Reward emphasizes safe obstacle clearance and landing-pad alignment.</p>
+        </div>
+        <div class="media-card">
+          <img class="reward-gif" src="./videos/barrier_cross_and_land.gif" alt="Barrier crossing and landing reward evolution" />
+          <h3>Barrier crossing and landing</h3>
+          <p>Reward guides barrier crossing before precise landing.</p>
+        </div>
+        <div class="media-card wide-media">
+          <img class="reward-gif" src="./videos/circular_motion_gen.gif" alt="Circular motion generation reward evolution" />
+          <h3>Circular motion generation</h3>
+          <p>Reward forms an orbit-aware field around the desired circular motion region.</p>
+        </div>
+      </div>
+    </section> -->
+
+    <section class="section-shell" id="videos">
+      <div class="section-heading">
+        <p class="eyebrow">Demonstration</p>
+        <h2>Full AgenticRL Demo</h2>
+      </div>
+    
+      <div class="demo-feature centered-demo">
+        <div class="drive-embed">
+          <iframe
+            src="https://www.youtube.com/embed/zBYjD46L4BI"
+            title="AgenticRL Demo Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell split" id="paper">
+      <div>
+        <p class="eyebrow">Links</p>
+        <h2>Paper and code</h2>
+        <p>Read the paper on arXiv. Code will be released soon.</p>
+      </div>
+      <div class="link-card-list">
+        <a class="link-card" href="https://arxiv.org/pdf/2606.03963v3" target="_blank" rel="noopener">Paper <span>arXiv PDF</span></a>
+        <a class="link-card" id="code" href="#">Code Coming Soon <span>repository release pending</span></a>
+        <a class="link-card" href="#">Supplementary <span>coming soon</span></a>
+      </div>
+    </section>
+
+    <section class="section-shell" id="citation">
+      <div class="section-heading">
+        <p class="eyebrow">Citation</p>
+        <h2>BibTeX</h2>
+      </div>
+      <pre><code>@misc{khan2026agenticrlselfrefiningagenticreinforcement,
+      title={AgenticRL: Self-Refining Agentic Reinforcement Learning for Vision-Conditioned UAV Navigation}, 
+      author={Roohan Ahmed Khan and Yasheerah Yaqoot and Amir Atef Habel and Muhammad Ahsan Mustafa and Dzmitry Tsetserukou},
+      year={2026},
+      eprint={2606.03963},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2606.03963}, 
+}</code></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>AgenticRL · Project Page</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    const agenticScenarioData = {
+      trajectory: {
+        title: "Trajectory Following",
+        text: "Follow a target trajectory while minimizing deviation and maintaining stable UAV motion.",
+        bullets: [
+          "Primary objective: path progress and low deviation.",
+          "Failure condition: large path deviation or collision.",
+          "Best for showing reward shaping over trajectories."
+        ],
+        ssr: "93%", rsr: "90%", s2r: "97%",
+        plot: "assets/traj_follow.png",
+        gif: "videos/traj_reward.gif",
+        plotAlt: "Trajectory following real-world trajectory plot",
+        gifAlt: "Trajectory following reward evolution animation",
+        plotCaption: "Real-world trajectory-following rollout colored by velocity magnitude.",
+        gifCaption: "Reward evolves from local attraction toward trajectory-aligned progress."
+      },
+      gate: {
+        title: "Gate Traversal",
+        text: "Navigate through a moving gate while maintaining stable and centered UAV motion.",
+        bullets: [
+          "Primary objective: successful gate traversal.",
+          "Failure condition: missed gate, collision, or unstable flight.",
+          "Best for showing reward alignment around a gate center."
+        ],
+        ssr: "100%", rsr: "100%", s2r: "100%",
+        plot: "assets/pass_gate.png",
+        gif: "videos/gate_traversal.gif",
+        plotAlt: "Gate traversal real-world trajectory plot",
+        gifAlt: "Gate traversal reward evolution animation",
+        plotCaption: "Real-world gate traversal with start/final poses and gate direction.",
+        gifCaption: "Reward becomes concentrated around the gate center and traversal direction."
+      },
+      obstacle: {
+        title: "Obstacle Avoidance and Landing",
+        text: "Avoid obstacles and land safely on the target pad.",
+        bullets: [
+          "Primary objective: obstacle clearance and landing-pad alignment.",
+          "Failure condition: collision or failed landing.",
+          "Best for showing safety-aware reward refinement."
+        ],
+        ssr: "96%", rsr: "82%", s2r: "85%",
+        plot: "assets/obstacle_avoid.png",
+        gif: "videos/avoid_obs_and_land.gif",
+        plotAlt: "Obstacle avoidance and landing real-world trajectory plot",
+        gifAlt: "Obstacle avoidance and landing reward evolution animation",
+        plotCaption: "3D real-world trajectory showing obstacle avoidance and landing.",
+        gifCaption: "Reward emphasizes obstacle clearance and landing-pad alignment."
+      },
+      barrier: {
+        title: "Wall Barrier Crossing and Landing",
+        text: "Cross a wall-like barrier and complete a controlled landing on the target pad.",
+        bullets: [
+          "Primary objective: barrier crossing followed by landing.",
+          "Failure condition: wall collision or failed landing.",
+          "Best for showing sequential task reward shaping."
+        ],
+        ssr: "95%", rsr: "85%", s2r: "89%",
+        plot: "assets/barrier_land.png",
+        gif: "videos/barrier_cross_and_land.gif",
+        plotAlt: "Barrier crossing and landing real-world trajectory plot",
+        gifAlt: "Barrier crossing and landing reward evolution animation",
+        plotCaption: "3D real-world rollout crossing a barrier before landing.",
+        gifCaption: "Reward guides wall crossing before precise landing."
+      },
+      circular: {
+        title: "Circular Motion Generation",
+        text: "Generate smooth circular motion while preserving stable UAV control.",
+        bullets: [
+          "Primary objective: stable orbit-like motion generation.",
+          "Failure condition: unstable motion or incomplete circular behavior.",
+          "Best for showing motion-behavior reward refinement."
+        ],
+        ssr: "98%", rsr: "98%", s2r: "100%",
+        plot: "assets/motion_gen.png",
+        gif: "videos/circular_motion_gen.gif",
+        plotAlt: "Circular motion generation real-world trajectory plot",
+        gifAlt: "Circular motion generation reward evolution animation",
+        plotCaption: "Real-world circular motion trajectory colored by velocity magnitude.",
+        gifCaption: "Reward forms an orbit-aware field around the desired circular motion region."
+      }
+    };
+
+    function updateAgenticScenario(key) {
+      const data = agenticScenarioData[key];
+      if (!data) return;
+      const title = document.getElementById("scenarioTitle");
+      const text = document.getElementById("scenarioText");
+      const bullets = document.getElementById("scenarioBullets");
+      const ssr = document.getElementById("ssrBox");
+      const rsr = document.getElementById("rsrBox");
+      const s2r = document.getElementById("s2rBox");
+      const plot = document.getElementById("scenarioPlot");
+      const gif = document.getElementById("scenarioGif");
+      const plotCaption = document.getElementById("scenarioPlotCaption");
+      const gifCaption = document.getElementById("scenarioGifCaption");
+
+      if (title) title.textContent = data.title;
+      if (text) text.textContent = data.text;
+      if (bullets) bullets.innerHTML = data.bullets.map(item => `<li>${item}</li>`).join("");
+      if (ssr) ssr.textContent = data.ssr;
+      if (rsr) rsr.textContent = data.rsr;
+      if (s2r) s2r.textContent = data.s2r;
+      if (plot) {
+        plot.src = data.plot;
+        plot.alt = data.plotAlt;
+      }
+      if (gif) {
+        gif.src = data.gif + "?v=" + Date.now();
+        gif.alt = data.gifAlt;
+      }
+      if (plotCaption) plotCaption.textContent = data.plotCaption;
+      if (gifCaption) gifCaption.textContent = data.gifCaption;
+    }
+
+    document.querySelectorAll(".tab[data-scenario]").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab[data-scenario]").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        updateAgenticScenario(tab.dataset.scenario);
+      });
+    });
+
+    updateAgenticScenario("trajectory");
+  </script>
+</body>
+</html>
