@@ -686,27 +686,44 @@ function updateScenario(scenarioKey) {
   gif.alt = s.gifAlt;
   document.getElementById("scenarioGifCaption").textContent = s.gifCaption;
 
-  const taskImage = document.getElementById("taskMediaImage");
-  const taskVideo = document.getElementById("taskMediaVideo");
-  const taskVideoSource =
-    document.getElementById("taskMediaVideoSource") || taskVideo?.querySelector("source");
+const taskImage = document.getElementById("taskMediaImage");
+const taskVideo = document.getElementById("taskMediaVideo");
+const taskIframe = document.getElementById("taskMediaIframe");
+const taskVideoSource =
+  document.getElementById("taskMediaVideoSource") || taskVideo?.querySelector("source");
 
-  if (s.taskMediaType === "video") {
-    taskImage.style.display = "none";
-    taskVideo.style.display = "block";
-    if (taskVideoSource) taskVideoSource.src = s.taskMediaSrc;
-    taskVideo.load();
-    taskVideo.play().catch(() => {});
-  } else {
-    taskVideo.pause();
-    taskVideo.style.display = "none";
-    if (taskVideoSource) taskVideoSource.removeAttribute("src");
-    taskVideo.load();
+if (s.taskMediaType === "video") {
+  taskImage.style.display = "none";
+  taskIframe.style.display = "none";
+  taskIframe.src = "";
 
-    taskImage.style.display = "block";
-    taskImage.src = s.taskMediaSrc;
-    taskImage.alt = s.taskMediaAlt;
-  }
+  taskVideo.style.display = "block";
+  if (taskVideoSource) taskVideoSource.src = s.taskMediaSrc;
+  taskVideo.load();
+  taskVideo.play().catch(() => {});
+} else if (s.taskMediaType === "iframe") {
+  taskImage.style.display = "none";
+
+  taskVideo.pause();
+  taskVideo.style.display = "none";
+  if (taskVideoSource) taskVideoSource.removeAttribute("src");
+  taskVideo.load();
+
+  taskIframe.style.display = "block";
+  taskIframe.src = s.taskMediaSrc;
+} else {
+  taskIframe.style.display = "none";
+  taskIframe.src = "";
+
+  taskVideo.pause();
+  taskVideo.style.display = "none";
+  if (taskVideoSource) taskVideoSource.removeAttribute("src");
+  taskVideo.load();
+
+  taskImage.style.display = "block";
+  taskImage.src = s.taskMediaSrc;
+  taskImage.alt = s.taskMediaAlt;
+}
 
   document.getElementById("taskMediaCaption").textContent = s.taskMediaCaption;
   document.getElementById("scenarioUserPrompt").textContent = s.userPrompt;
