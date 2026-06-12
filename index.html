@@ -68,10 +68,10 @@
       <div class="hero-copy">
         <p class="eyebrow">Project page</p>
         <h1>AgenticRL</h1>
-        <h2>Multimodal Agent-Guided Reward Refinement for UAV Reinforcement Learning</h2>
+        <h2>Self-Refining Agentic Reinforcement Learning for Vision-Conditioned UAV Navigation</h2>
         <p class="authors">Roohan Ahmed Khan · Yasheerah Yaqoot · Amir Atef Habel · Muhammad Ahsan Mustafa · Dzmitry Tsetserukou</p>
         <p class="hero-text">
-          AgenticRL uses a multimodal agent as an automatic critic to diagnose UAV reinforcement-learning behavior, refine reward functions, and improve policy learning from simulation to real-world UAV deployment.
+          AgenticRL is a self-refining agentic reinforcement learning framework for vision-conditioned UAV navigation. A multimodal agent diagnoses policy behavior, refines reward functions, and improves learning from simulation to real-world UAV deployment.
         </p>
         <div class="button-row">
           <a class="button primary" href="https://arxiv.org/pdf/2606.03963v3" target="_blank" rel="noopener">Paper</a>
@@ -90,7 +90,7 @@
       <div><strong>+71%</strong><span>reward refinement improvement</span></div>
       <div><strong>91%</strong><span>collective real-world success</span></div>
       <div><strong>93%</strong><span>collective sim-to-real accuracy</span></div>
-      <div><strong>5</strong><span>UAV navigation scenarios</span></div>
+      <div><strong>5+</strong><span>UAV navigation scenarios</span></div>
     </section>
 
     <section class="section-shell" id="overview">
@@ -103,16 +103,19 @@
       </div>
       <div class="problem-grid">
         <article class="problem-card">
+          <img class="motivation-image" src="assets/motivation_1.png" alt="Illustration of human error in reward design for UAV reinforcement learning" />
           <span>01</span>
           <h3>Human error in reward design</h3>
           <p>Dense reward functions are easy to write incorrectly and hard to tune across different UAV tasks.</p>
         </article>
         <article class="problem-card">
+          <img class="motivation-image" src="assets/motivation_2.png" alt="Illustration of unsafe and unstable UAV learning due to weak or missing feedback" />
           <span>02</span>
           <h3>Unsafe and unstable learning</h3>
           <p>Without feedback, the policy can exploit shortcuts, collide, oscillate, or optimize the wrong behavior.</p>
         </article>
         <article class="problem-card">
+          <img class="motivation-image" src="assets/motivation_3.png" alt="Illustration of limited testing gap between simulation training and real-world UAV deployment" />
           <span>03</span>
           <h3>Limited UAV deployment evidence</h3>
           <p>Agentic reward-refinement loops need validation beyond toy tasks and across real UAV scenarios.</p>
