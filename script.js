@@ -43,7 +43,6 @@ document.querySelectorAll('.timeline-step').forEach((step) => {
 //   }
 // };
 
-<script>
 const scenarioData = {
   trajectory: {
     title: "Trajectory Following",
@@ -718,7 +717,6 @@ document.querySelectorAll(".scenario-tabs .tab").forEach(button => {
 });
 
 updateScenario("trajectory");
-</script>
 
 document.querySelectorAll('.tab').forEach((tab) => {
   tab.addEventListener('click', () => {
