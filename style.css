@@ -361,3 +361,12 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+.task-media-frame iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border: 0;
+  border-radius: 14px;
+  background: #000;
+}
