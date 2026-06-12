@@ -160,3 +160,8 @@
     transform: none;
   }
 }
+
+/* Extra spacing between Results subsections */
+.subsection-heading {
+  margin-top: 70px;
+}
