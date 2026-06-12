@@ -370,3 +370,12 @@
   border-radius: 14px;
   background: #000;
 }
+
+.metric-mini-grid small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.15;
+  font-weight: 700;
+}
