@@ -379,3 +379,94 @@
   line-height: 1.15;
   font-weight: 700;
 }
+
+/* ---------- Final global spacing cleanup ---------- */
+
+/* Reduce large gaps between main sections */
+.section-shell {
+  padding-top: 48px !important;
+  padding-bottom: 48px !important;
+}
+
+/* Hero should not force full-screen height */
+.hero {
+  min-height: auto !important;
+  padding-top: 46px !important;
+  padding-bottom: 42px !important;
+}
+
+/* Reduce heading-to-content spacing */
+.section-heading {
+  margin-bottom: 20px !important;
+}
+
+/* Reduce spacing between subsections inside Results */
+.subsection-heading {
+  margin-top: 38px !important;
+}
+
+/* Reduce card/figure/table vertical spacing */
+.figure-card,
+.table-card,
+.media-card,
+.demo-feature {
+  margin-bottom: 16px !important;
+}
+
+/* Reduce scenario tab spacing */
+.scenario-tabs {
+  margin-bottom: 12px !important;
+}
+
+/* Make scenario panel more compact */
+.scenario-panel {
+  gap: 16px !important;
+  padding: 22px !important;
+}
+
+/* Reduce internal card padding */
+.scenario-agentic-card,
+.scenario-visual-card,
+.problem-card,
+.table-card,
+.figure-card {
+  padding: 16px !important;
+}
+
+/* Reduce paragraph/list spacing */
+.scenario-panel p,
+.problem-card p,
+.media-card p,
+.figure-card p,
+.table-note,
+.clean-list {
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+}
+
+/* Reduce stats strip spacing */
+.stats-strip {
+  margin-bottom: 4px !important;
+}
+
+/* Reduce footer spacing */
+footer {
+  padding: 28px !important;
+}
+
+/* Mobile spacing */
+@media (max-width: 980px) {
+  .section-shell {
+    padding-top: 38px !important;
+    padding-bottom: 38px !important;
+  }
+
+  .hero {
+    padding-top: 34px !important;
+    padding-bottom: 34px !important;
+  }
+
+  .subsection-heading {
+    margin-top: 30px !important;
+  }
+}
